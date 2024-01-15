@@ -1,0 +1,4 @@
+GET https://us-central1-artemis-b18ae.cloudfunctions.net/server/waste/
+content-type: application/json
+
+###
