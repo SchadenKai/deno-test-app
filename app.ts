@@ -1,5 +1,6 @@
 import express from 'express'
 import postRouter from './routes/postRoute.ts'
+import userRouter from './routes/userRoute.ts'
 import cors from 'cors'
 import helmet from 'helmet'
 
@@ -12,6 +13,7 @@ app.use(cors())
 app.use(helmet())
 
 app.use("/", postRouter)
+app.use('/user', userRouter)
 
 app.listen(PORT, () => {
   console.log("Listening to localhost:" + PORT)
