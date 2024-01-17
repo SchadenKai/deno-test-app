@@ -1,0 +1,57 @@
+GET http://localhost:8080
+Content-Type: application/json
+
+###
+POST http://localhost:8080/auth/signup
+Content-Type: application/json
+
+{
+    "email" : "kairustecsonpersonal@gmail.com",
+    "password" : "HelloWorld123!@#",
+    "options" : {
+        "data" : {
+            "display_name" : "Kairus Tecson",
+            "username" : "kainoah"
+        }
+    }
+}
+
+###
+PATCH  http://localhost:8080/8
+Content-Type: application/json
+
+{
+    "title" : "Integrating Jira to Github",
+    "content" : "Testing the API"
+}
+
+###
+POST http://localhost:8080/auth/signin
+Content-Type: application/json
+
+{
+    "email" : "kairustecsonpersonal@gmail.com",
+    "password" : "HelloWorld123!@#"
+}
+
+###
+GET http://localhost:8080/auth
+###
+POST http://localhost:8080/auth/signout
+Content-Type: application/json
+
+###
+
+POST http://localhost:8080
+Content-Type: application/json
+
+{
+    "title" : "Hello world",
+    "content" :"This is a testing hello world post",
+    "image_url" : "./public/img/image.png",
+    "username" : "kainoah",
+}
+
+### 
+DELETE http://localhost:8080/12
+Content-Type: application/json

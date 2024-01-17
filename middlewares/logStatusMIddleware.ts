@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction} from 'express'
 
-const logger = (req : Request, _res : Response, next : NextFunction) => {
+const logger = (_req : Request, _res : Response, next : NextFunction) => {
     console.log("This is working...")
-    console.log({"status" : "OK", ...req.body})
+    console.log({"status" : "OK"})
     next() 
 }
 

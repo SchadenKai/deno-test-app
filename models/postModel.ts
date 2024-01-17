@@ -6,6 +6,7 @@ export const postBodySchema = z.object({
     content: z.string(),
     image_url : z.string(),
     username : z.string(),
+    email : z.string().email()
 })
 
 export const postUpdateBodySchema = z.object({
@@ -13,5 +14,6 @@ export const postUpdateBodySchema = z.object({
     content: z.string(),
     image_url : z.string(),
     username : z.string(),
+    email : z.string().email()
 }).partial()
 
