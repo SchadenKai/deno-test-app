@@ -43,11 +43,8 @@ const PostController = {
   addPost: async (req: Request, res: Response) => {
     try {
       const username = sessionStorage.getItem("username")
-      const email = sessionStorage.getItem("email")
-      if (!username && !email) {
-        throw new Error("Please login first before being able to continue...")
-      }
-      const validatedData = postBodySchema.parse({...req.body, username : username, email : email});
+      if (!username) throw new Error("Please login first before being able to continue...");
+      const validatedData = postBodySchema.parse({...req.body, username : username});
       await supabase!.from("post").insert(validatedData).throwOnError();
       res.send({ message: "Successfully posted!" });
     } catch (e: unknown) {

@@ -9,7 +9,7 @@
     "dotenv": "https://deno.land/std@0.212.0/dotenv/mod.ts"
   },
   "tasks": {
-    "start": "deno run -A --watch --unstable app.ts",
+    "start": "deno run -A --watch app.ts",
     "introspect": "drizzle-kit introspect:pg",
     "generate": "drizzle-kit generate:pg"
   }
