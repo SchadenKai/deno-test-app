@@ -1,15 +1,33 @@
-import { z } from "zod"
+import { z } from "zod";
 
 export const userBodySchema = z.object({
-    username : z.string(),
-    first_name : z.string(),
-    middle_name : z.string().optional(),
-    last_name : z.string()
-})
+  username: z.string(),
+  email: z.string().email(),
+});
 
 export const userUpdateBodySchema = z.object({
-    username : z.string(),
-    first_name : z.string(),
-    middle_name : z.string().optional(),
-    last_name : z.string()
-}).partial()
+    email: z.string().email(),
+    password: z
+    .string()
+    .min(8, "Password must be more than 8 characters")
+    .regex(
+        new RegExp(".*[A-Z].*"),
+        "You must include upper case character in your password"
+    )
+    .regex(
+        new RegExp(".*[a-z].*"),
+        "You must include lower case character in your password"
+    )
+    .regex(
+        new RegExp(".*[0-9].*"),
+        "You must include number 0-9 to your password"
+    )
+    .regex(
+        new RegExp(".*[`~<>?,./!@#$%^&*()\\-_+=\"'|{}\\[\\];:\\\\].*"),
+        "You must include special characters in your password"
+    ),
+    data: z.object({
+    display_name: z.string(),
+    username: z.string(),
+    }),
+}).partial();

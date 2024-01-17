@@ -1,41 +1,15 @@
 import { Request, Response } from "express";
-import { z, ZodError } from "zod";
-import { userBodySchema, userUpdateBodySchema } from "../models/userModel.ts";
+import { ZodError } from "zod";
+import { userUpdateBodySchema } from "../models/userModel.ts";
 import supabase from "../db/ini.ts";
 
 const UserController = {
-  addUser: async (req: Request, res: Response) => {
-    try {
-      const validatedData = userBodySchema.parse(req.body);
-      await supabase!.from("user").insert(validatedData).throwOnError();
-      res.send({ message: "Succcessfully added a user!" });
-    } catch (e) {
-      e instanceof ZodError && res.send(e.issues);
-      e instanceof Error && res.send(e.message);
-      res.send(e);
-    }
-  },
-  deleteUser: async (req: Request, res: Response) => {
-    try {
-      const id = req.params.id;
-      await supabase!.from("user").delete().eq("id", id).throwOnError();
-      res.send("Sucessfully delete the user");
-    } catch (e) {
-      e instanceof ZodError && res.send(e.issues);
-      e instanceof Error && res.send(e.message);
-      res.send(e);
-    }
-  },
   updateUser: async (req: Request, res: Response) => {
     try {
-      const id = req.params.id;
-      const validatedData = userUpdateBodySchema.parse(req.body);
-      await supabase!
-        .from("user")
-        .update(validatedData)
-        .eq("id", id)
-        .throwOnError();
-      res.send("Successfully updated the user information!");
+      const validatedData = userUpdateBodySchema.parse(req.body)
+      const {data, error} = await supabase!.auth.updateUser(validatedData)
+      if (error) throw new Error(JSON.stringify(error))
+      res.send({...data, "message" : "Successfully updated the user information!"});
     } catch (e) {
       e instanceof ZodError && res.send(e.issues);
       e instanceof Error && res.send(e.message);

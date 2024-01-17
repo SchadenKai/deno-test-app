@@ -1,4 +1,4 @@
-import { authRegisterModel, authSigninModel } from "../models/authModel.ts";
+import { authRegisterModel, authSigninModel, passedApiSchemaForSignup } from "../models/authModel.ts";
 import { Request, Response } from "express";
 import supabase from "../db/ini.ts";
 import { ZodError } from "zod";
@@ -6,8 +6,22 @@ import { ZodError } from "zod";
 const AuthController = {
   signUp: async (req: Request, res: Response) => {
     try {
-      const validatedData = authRegisterModel.parse(req.body);
+      const inputData = passedApiSchemaForSignup.parse(req.body)
+      const validatedData = authRegisterModel.parse({
+        email : inputData.email,
+        passsword : inputData.password, 
+        options : {
+          data : {
+            display_name : inputData.display_name,
+            username : inputData.username
+          }
+        }
+      });
       const data = await supabase!.auth.signUp(validatedData);
+      await sessionStorage.setItem("username", data.data.user?.user_metadata.username)
+      await sessionStorage.setItem("email", data.data.user?.email || "")
+      await sessionStorage.setItem("jwt_token", data.data.session?.access_token || "")
+      console.log('Successfully signin id:' + data.data.user?.id + ' email: ' + data.data.user?.email)
       res.send(data);
     } catch (e) {
       e instanceof ZodError && res.send(e.issues);
